@@ -69,11 +69,23 @@
     },
     addNewClick: function(event){
       //lisa uus purk
-      var title = document.querySelector('.title').value;
-      var ingredients = document.querySelector('.ingredients').value;
+      var title = this.trimWord(document.querySelector('.title').value);
+      var ingredients = this.trimWord(document.querySelector('.ingredients').value);
       console.log(title+' '+ingredients);
-      var new_jar = new Jar(title, ingredients);
-      document.querySelector('.list-of-jars').appendChild(new_jar.createHtmlElement());
+
+      if(title === '' || ingredients === ''){
+        if(document.querySelector('.feedback-success').className !== null){
+          document.querySelector('.feedback-success').className=document.querySelector('.feedback-success').className.replace('feedback-success','feedback-error');
+        }
+        document.querySelector('#show-feedback').innerHTML='Kõik read peavad täidetud olema';
+      }else{
+        if(document.querySelector('.feedback-error').className !== null){
+          document.querySelector('.feedback-error').className=document.querySelector('.feedback-error').className.replace('feedback-error','feedback-success');
+        }
+        document.querySelector('#show-feedback').innerHTML='Salvestamine õnnestus';
+        var new_jar = new Jar(title, ingredients);
+        document.querySelector('.list-of-jars').appendChild(new_jar.createHtmlElement());
+      }
     },
     routeChange: function(event){
       this.currentRoute = window.location.hash.slice(1);
@@ -95,7 +107,17 @@
       document.querySelector('.active-menu').className=document.querySelector('.active-menu').className.replace(' active-menu', '');
       //käesolevale lehele lisan juurde
       document.querySelector('.'+this.currentRoute).className+=' active-menu';
+    },
+    trimWord: function (str) {
+    str = str.replace(/^\s+/, '');
+    for (var i = str.length - 1; i >= 0; i--) {
+        if (/\S/.test(str.charAt(i))) {
+            str = str.substring(0, i + 1);
+            break;
+        }
     }
+    return str;
+}
   };
 
   var Jar = function(title, new_ingredients){

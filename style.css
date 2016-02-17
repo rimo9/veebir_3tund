@@ -100,6 +100,40 @@ main > *:target ~ * {
     border: 2px solid rgb(146, 168, 209);
     color: rgb(146, 168, 209);
 }
+.feedback-success{
+  color: green;
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  padding: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  text-decoration: none;
+  border: 2px solid rgba(0, 0, 0, 0);
+}
+.feedback-error{
+  color: red;
+  font-size: 18px;
+  font-weight: bold;
+  display: block;
+  padding: 10px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -khtml-user-select: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  text-decoration: none;
+  border: 2px solid rgba(0, 0, 0, 0);
+}
 label {
     color: gray;
 }
