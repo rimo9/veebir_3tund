@@ -71,19 +71,21 @@
       //lisa uus purk
       var title = this.trimWord(document.querySelector('.title').value);
       var ingredients = this.trimWord(document.querySelector('.ingredients').value);
-      console.log(title+' '+ingredients);
-
+	  var timeAdded = this.writeDate();
+      console.log(title+' '+ingredients+' Lisatud: '+timeAdded);
+	  var className = document.getElementById("show-feedback").className;
+	  
       if(title === '' || ingredients === ''){
-        if(document.querySelector('.feedback-success').className !== null){
-          document.querySelector('.feedback-success').className=document.querySelector('.feedback-success').className.replace('feedback-success','feedback-error');
-        }
+		if(className == "feedback-success"){
+		document.querySelector('.feedback-success').className=document.querySelector('.feedback-success').className.replace('feedback-success','feedback-error');
+		}
         document.querySelector('#show-feedback').innerHTML='Kõik read peavad täidetud olema';
       }else{
-        if(document.querySelector('.feedback-error').className !== null){
+        if(className == "feedback-error"){
           document.querySelector('.feedback-error').className=document.querySelector('.feedback-error').className.replace('feedback-error','feedback-success');
         }
         document.querySelector('#show-feedback').innerHTML='Salvestamine õnnestus';
-        var new_jar = new Jar(title, ingredients);
+		var new_jar = new Jar(title, ingredients, timeAdded);
         document.querySelector('.list-of-jars').appendChild(new_jar.createHtmlElement());
       }
     },
@@ -108,6 +110,21 @@
       //käesolevale lehele lisan juurde
       document.querySelector('.'+this.currentRoute).className+=' active-menu';
     },
+	writeDate : function(){
+		  var d = new Date();
+		  var day = d.getDate();
+		  var month = d.getMonth();
+		  var year = d.getFullYear();
+		  //#clock element htmli
+		  var curTime = this.addZeroBefore(day)+"."+this.addZeroBefore(month+1)+"."+year;
+		  return curTime;
+	},
+	addZeroBefore : function(number){
+		  if(number<10){
+			number="0"+number;
+		  }
+		  return number;
+	},
     trimWord: function (str) {
     str = str.replace(/^\s+/, '');
     for (var i = str.length - 1; i >= 0; i--) {
@@ -120,14 +137,16 @@
 }
   };
 
-  var Jar = function(title, new_ingredients){
+  var Jar = function(title, new_ingredients, timeAdded){
     this.title = title;
     this.ingredients = new_ingredients;
+	this.timeAdded = timeAdded;
   };
   Jar.prototype = {
     createHtmlElement: function(){
       //anna tagasi ilus html
       var li = document.createElement('li');
+	  
       var span = document.createElement('span');
       span.className = 'letter';
       var letter = document.createTextNode(this.title.charAt(0));
@@ -136,7 +155,7 @@
 
       var content_span = document.createElement('span');
       content_span.className = 'content';
-      var content = document.createTextNode(this.title+' | '+this.ingredients);
+      var content = document.createTextNode(this.title+' | '+this.ingredients+' Lisatud: '+this.timeAdded);
       content_span.appendChild(content);
       li.appendChild(content_span);
 
